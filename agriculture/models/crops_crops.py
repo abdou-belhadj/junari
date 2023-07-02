@@ -32,13 +32,15 @@ class CropsCrops(models.Model):
 
     process_count = fields.Integer(string="Processes Count", compute="_compute_processes_count", )
 
+    move_ids = fields.One2many('stock.move', 'crops_id', string="Stock Moves", copy=True)
+
     @api.depends('process_ids')
     def _compute_processes_count(self):
         for rec in self:
             rec.process_count = len(rec.process_ids)
 
     def action_view_crops_process(self):
-        result = {
+        return {
             "type": "ir.actions.act_window",
             "res_model": "crops.process",
             "domain": [('crops_id', "=", self.id)],
@@ -46,7 +48,6 @@ class CropsCrops(models.Model):
             "name": _("CROPS"),
             'view_mode': 'kanban,activity',
         }
-        return result
 
     @api.depends('date_from', 'date_to')
     def _compute_number_of_days(self):
@@ -56,6 +57,21 @@ class CropsCrops(models.Model):
                 rec.number_of_days = delta.days
             else:
                 rec.number_of_days = 0
+
+    def create_stock_receipt(self):
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "crops.stock.wizard",
+            "context": {'default_crops_id': self.id,
+                        'default_product_id': self.product_id.id,
+                        'default_uom_id': self.product_id.uom_id.id,
+                        'default_location_id': self.env.ref('agriculture.crops_location').id,
+                        'default_location_dest_id': self.env.ref('stock.stock_location_stock').id,
+                        },
+            "name": _("CROPS STOCK"),
+            'view_mode': 'form',
+            'target': 'new',
+        }
 
 
 class CropsStages(models.Model):

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_crops_stock_wizard_form" model="ir.ui.view">
+            <field name="name">crops.stock.wizard.form</field>
+            <field name="model">crops.stock.wizard</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <group>
+                        <group>
+                            <field name="crops_id" invisible="1"/>
+                            <field name="product_id" readonly="1"/>
+                            <!--                           <field name="quantity"/>-->
+                            <!--                           <field name="uom_id"/>-->
+                            <label for="quantity" string="Duration"/>
+                            <div name="quantity_display">
+                                <div class="o_row">
+                                    <field name="quantity" class="oe_inline"/>
+                                    <field name="uom_id" class="oe_inline"/>
+                                </div>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="location_id" readonly="1"/>
+                            <field name="location_dest_id"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="create_stock_receipt" type="object" string="STOCK Receipt" class="oe_highlight"/>
+                        <button string="Cancel" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

@@ -6,3 +6,4 @@ access_crops_process,crops.process,model_crops_process,,1,1,1,1
 access_process_process,process.process,model_process_process,,1,1,1,1
 access_crops_disease,crops.disease,model_crops_disease,,1,1,1,1
 access_disease_disease,disease.disease,model_disease_disease,,1,1,1,1
+access_crops_stock_wizard,crops.stock.wizard,model_crops_stock_wizard,,1,1,1,1

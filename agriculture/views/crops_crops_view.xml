@@ -12,6 +12,9 @@
                         <field name="stage_id" widget="statusbar" class="o_field_statusbar"
                                options="{'clickable': '1', 'fold_field': 'fold'}"
                                attrs="{'invisible': [('active', '=', False)]}"/>
+
+                        <button name="create_stock_receipt" type="object" string="Increment Stock"/>
+
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
@@ -83,7 +86,7 @@
                                         </tree>
                                     </field>
                                 </page>
-                                <page string="Pest and Disease">
+                                <page string="Pest and Disease" name="diseases">
                                     <field name="diseases_ids">
                                         <tree editable="bottom">
                                             <field name="crops_id" invisible="1"/>
@@ -92,6 +95,18 @@
                                             <field name="date_from"/>
                                             <field name="date_to"/>
                                             <field name="description"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Operations" name="operations">
+                                    <field name="move_ids" readonly="1">
+                                        <tree editable="bottom">
+                                            <field name="crops_id" invisible="1"/>
+                                            <field name="product_uom_category_id" invisible="1"/>
+                                            <field name="picking_id"/>
+                                            <field name="state"/>
+                                            <field name="product_uom_qty"/>
+                                            <field name="product_uom"/>
                                         </tree>
                                     </field>
                                 </page>

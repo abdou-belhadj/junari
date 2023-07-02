@@ -8,11 +8,11 @@
         <!--            <field name="web_icon">farmers,static/description/icon.png</field>-->
         <!--        </record>-->
 
-<!--        <record id="crops_location" model="stock.location">-->
-<!--            <field name="name">Crops Location</field>-->
-<!--            <field name="location_id" ref="stock.stock_location_locations_virtual"/>-->
-<!--            <field name="usage">production</field>-->
-<!--        </record>-->
+        <record id="crops_location" model="stock.location">
+            <field name="name">Crops Location</field>
+            <field name="location_id" ref="stock.stock_location_locations_virtual"/>
+            <field name="usage">production</field>
+        </record>
 
 <!--        <record id="crops_sequence" model="ir.sequence">-->
 <!--            <field name="name">Crops Location</field>-->

@@ -6,7 +6,7 @@
         <menuitem id="res_farmer_root"
                   name="Farmers"
                   sequence="20"
-                  web_icon="agriculture,static/description/icon.png"/>
+                  web_icon="agriculture,static/description/farmer.png"/>
 
         <menuitem id="res_farmer_menu"
                   name="Farmers"
@@ -19,7 +19,7 @@
         <menuitem id="crops_crops_root"
                   name="CROPS"
                   sequence="140"
-                  web_icon="agriculture,static/description/crops.png"/>
+                  web_icon="agriculture,static/description/icon.png"/>
 
         <menuitem id="crops_crops_menu"
                   name="CROPS"

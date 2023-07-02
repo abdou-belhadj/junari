@@ -32,6 +32,7 @@
         'views/process_process_view.xml',
         'views/crops_process_view.xml',
         'views/product_views.xml',
+        'wizard/crops_stock_view.xml',
         'views/menus.xml',
     ],
 }
