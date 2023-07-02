@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_disease_disease_tree" model="ir.ui.view">
+            <field name="name">disease.disease.tree</field>
+            <field name="model">disease.disease</field>
+            <field name="arch" type="xml">
+                <tree string="Diseases" editable="bottom">
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="act_disease_disease" model="ir.actions.act_window">
+            <field name="name">CROPS Diseases</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">disease.disease</field>
+            <field name="view_mode">tree</field>
+        </record>
+        
+        <menuitem id="crops_disease_menu"
+                  name="Diseases"
+                  sequence="20"
+                  parent="crops_configuration_menu"
+                  action="act_disease_disease"/>
+    </data>
+</odoo>

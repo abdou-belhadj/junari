@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--        <record id="view_crops_process_activity" model="ir.ui.view">-->
+        <!--            <field name="name">crops.process.activity</field>-->
+        <!--            <field name="model">crops.process</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <activity string="Processes">-->
+        <!--                    <templates>-->
+        <!--                        <div t-name="activity-box">-->
+        <!--                            <div>-->
+        <!--                                <field name="crops_id"/>-->
+        <!--                                <t t-if="record.process_id.raw_value">-->
+        <!--                                    : <field name="process_id"/>-->
+        <!--                                </t>-->
+        <!--                                <t t-if="record.description.raw_value">-->
+        <!--                                    : <field name="description"/>-->
+        <!--                                </t>-->
+        <!--                            </div>-->
+        <!--                        </div>-->
+        <!--                    </templates>-->
+        <!--                </activity>-->
+        <!--            </field>-->
+        <!--        </record>-->
+
+        <record id="view_crops_process_kanban" model="ir.ui.view">
+            <field name="name">crops.process.kanban</field>
+            <field name="model">crops.process</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="status" group_create="false" class="o_modules_kanban" sample="1">
+                    <field name="status"/>
+                    <field name="color"/>
+                    <field name="description"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="assigned_to"/>
+                    <field name="fleet_ids"/>
+
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''} #{lost_ribbon ? 'oe_kanban_card_ribbon' : ''} oe_kanban_global_click oe_kanban_card d-flex flex-column">
+
+                                <div class="oe_kanban_content flex-grow-1">
+                                    <div class="o_kanban_record_title oe_kanban_details">
+                                        <h2><field name="crops_id"/></h2>
+                                    </div>
+
+                                    <div>
+                                        <field name="description"/>
+                                    </div>
+                                    <div>
+                                        <field name="fleet_ids" widget="many2many_tags"
+                                               options="{'color_field': 'color'}"/>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_bottom mt-3">
+                                    <div class="oe_kanban_bottom_left">
+                                        <t t-esc="record.assigned_to.value"/>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <t t-if="record.date_from.value and record.date_from.value">
+                                            <span>
+                                                <field name="date_from"/> - <field name="date_to"/>
+                                            </span>
+                                        </t>
+                                        <t t-else="">
+                                            <field name="date_from"/><field name="date_to"/>
+                                        </t>
+                                        <field name="activity_ids" widget="kanban_activity"/>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+
+            </field>
+        </record>
+
+
+        <record id="act_crops_process" model="ir.actions.act_window">
+            <field name="name">CROPS Processes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">crops.process</field>
+            <field name="view_mode">kanban,activity</field>
+        </record>
+
+        <!--        <menuitem id="crops_process_menu"-->
+        <!--                  name="Processes"-->
+        <!--                  sequence="20"-->
+        <!--                  parent="crops_configuration_menu"-->
+        <!--                  action="act_process_process"/>-->
+    </data>
+</odoo>

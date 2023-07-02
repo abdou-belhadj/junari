@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_process_process_tree" model="ir.ui.view">
+            <field name="name">process.process.tree</field>
+            <field name="model">process.process</field>
+            <field name="arch" type="xml">
+                <tree string="Processes" editable="bottom">
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="fleet_ids" widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="act_process_process" model="ir.actions.act_window">
+            <field name="name">CROPS Processes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">process.process</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <menuitem id="crops_process_menu"
+                  name="Processes"
+                  sequence="20"
+                  parent="crops_configuration_menu"
+                  action="act_process_process"/>
+    </data>
+</odoo>

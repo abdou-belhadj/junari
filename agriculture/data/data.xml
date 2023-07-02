@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <!--        <record id="fleet.menu_root" model="ir.ui.menu">-->
+        <!--            <field name="name">Tractors</field>-->
+        <!--            <field name="web_icon">farmers,static/description/icon.png</field>-->
+        <!--        </record>-->
+
+<!--        <record id="crops_location" model="stock.location">-->
+<!--            <field name="name">Crops Location</field>-->
+<!--            <field name="location_id" ref="stock.stock_location_locations_virtual"/>-->
+<!--            <field name="usage">production</field>-->
+<!--        </record>-->
+
+<!--        <record id="crops_sequence" model="ir.sequence">-->
+<!--            <field name="name">Crops Location</field>-->
+<!--            <field name="code">stock.picking</field>-->
+<!--            <field name="prefix">CROPS</field>-->
+<!--            <field name="padding">5</field>-->
+<!--            <field eval="1" name="number_next"/>-->
+<!--            <field eval="1" name="number_increment"/>-->
+<!--            <field name="company_id" eval="False"/>-->
+<!--        </record>-->
+
+<!--        <record id="crops_receipt_operation" model="stock.picking.type">-->
+<!--            <field name="name">Crops Receipts</field>-->
+<!--            <field name="sequence_id" ref="agriculture.crops_sequence"/>-->
+<!--            <field name="code">incoming</field>-->
+<!--            <field name="sequence_code">IN</field>-->
+<!--            <field name="create_backorder">never</field>-->
+<!--        </record>-->
+
+    </data>
+</odoo>

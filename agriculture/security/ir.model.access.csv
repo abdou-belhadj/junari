@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_res_farmer,res.farmer,model_res_farmer,,1,1,1,1
+access_crops_crops,crops.crops,model_crops_crops,,1,1,1,1
+access_crops_stages,crops.stages,model_crops_stages,,1,1,1,1
+access_crops_process,crops.process,model_crops_process,,1,1,1,1
+access_process_process,process.process,model_process_process,,1,1,1,1
+access_crops_disease,crops.disease,model_crops_disease,,1,1,1,1
+access_disease_disease,disease.disease,model_disease_disease,,1,1,1,1

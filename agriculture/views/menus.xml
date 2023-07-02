@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- This Menu Item will appear in the Upper bar, That's why It needs NO parent or action -->
+        <menuitem id="res_farmer_root"
+                  name="Farmers"
+                  sequence="20"
+                  web_icon="agriculture,static/description/icon.png"/>
+
+        <menuitem id="res_farmer_menu"
+                  name="Farmers"
+                  sequence="10"
+                  parent="res_farmer_root"
+                  action="act_res_farmer"/>
+
+
+        <!-- This Menu Item will appear in the Upper bar, That's why It needs NO parent or action -->
+        <menuitem id="crops_crops_root"
+                  name="CROPS"
+                  sequence="140"
+                  web_icon="agriculture,static/description/crops.png"/>
+
+        <menuitem id="crops_crops_menu"
+                  name="CROPS"
+                  sequence="10"
+                  parent="crops_crops_root"
+                  action="act_crops_crops"/>
+
+        <menuitem id="crops_configuration_menu"
+                  name="Configuration"
+                  sequence="99"
+                  parent="crops_crops_root"/>
+
+        <menuitem id="crops_stages_menu"
+                  name="Stages"
+                  sequence="10"
+                  parent="crops_configuration_menu"
+                  action="act_crops_stages"/>
+
+        <!--        &lt;!&ndash; This Menu Item will appear in the Upper bar, That's why It needs NO parent or action &ndash;&gt;-->
+        <!--        <menuitem id="fleet_tracktors_root"-->
+        <!--                  name="Tracktors"-->
+        <!--                  sequence="220"-->
+        <!--                  web_icon="agriculture,static/description/tracktor.png"/>-->
+
+    </data>
+</odoo>

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="view_res_farmer_form" model="ir.ui.view">
+            <field name="name">res.farmer.form</field>
+            <field name="model">res.farmer</field>
+            <field name="arch" type="xml">
+                <form string="Farmer">
+                    <sheet>
+                        <div name="button_box" class="oe_button_box">
+                        </div>
+
+                        <field name="active" invisible="1"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                                attrs="{'invisible': [('active', '=', True)]}"/>
+
+                        <div style="width:100%;" class="row align-items-center">
+                            <div class="col-2">
+                                <field name="image_1920" widget="image" class="oe_left oe_avatar"/>
+                            </div>
+                            <div style="flex: 1;display: flex;flex-direction: column;">
+                                <div class="col-10 px-0">
+                                    <div class="row">
+                                        <h2 class="col-10">
+                                            <field name="name" placeholder="Name" required="1" invisible="1"/>
+                                            <table>
+                                                <tr>
+                                                    <td style="padding-right:10px;">
+                                                        <field name="first_name" required="1" placeholder="First Name"/>
+                                                    </td>
+                                                    <td style="padding-right:10px;">
+                                                        <field name="middle_name" placeholder="Middle Name"/>
+                                                    </td>
+                                                    <td style="padding-right:10px;">
+                                                        <field name="last_name" placeholder="Last Name"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <notebook colspan="4">
+                            <page name="personal_information" string="Personal Information">
+                                <group>
+                                    <group>
+                                        <field name="partner_id" placeholder="Contact" required="0"
+                                               attrs="{'invisible': [('partner_id', '=', False)]}"/>
+                                        <field name="gender"/>
+                                        <field name="birth_date"/>
+                                        <label for="type"/>
+                                        <div name="div_type">
+                                            <field class="oe_inline" name="type"/>
+                                        </div>
+                                        <label for="street" string="Address"/>
+                                        <div name="o_address_format">
+                                            <field name="street" placeholder="Street..."/>
+                                            <field name="street2" placeholder="Street2"/>
+                                            <div class="address_format">
+                                                <field name="city" placeholder="City" style="width: 40%"/>
+                                                <field name="state_id" class="oe_no_button" placeholder="State"
+                                                       style="width: 37%" options="{&quot;no_open&quot;: True}"/>
+                                                <field name="zip" placeholder="ZIP" style="width: 20%"/>
+                                            </div>
+                                            <field name="country_id" placeholder="Country" class="oe_no_button"
+                                                   options="{&quot;no_open&quot;: True}"/>
+                                        </div>
+
+
+                                    </group>
+                                    <group>
+                                        <field name="email"/>
+                                        <field name="phone"/>
+                                        <field name="mobile"/>
+                                        <field name="nationality"/>
+                                        <field name="nationality_code" invisible="1"/>
+                                        <field name="lang"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group>
+                                        <field name="blood_group"/>
+                                        <field name="emergency_contact" context="{'show_address': 1}"
+                                               options="{&quot;always_reload&quot;: True}"/>
+                                    </group>
+                                    <group>
+                                    </group>
+                                </group>
+                            </page>
+
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_res_farmer_kanban" model="ir.ui.view">
+            <field name="name">res.farmer.kanban</field>
+            <field name="model">res.farmer</field>
+            <field name="arch" type="xml">
+                <kanban class="o_res_partner_kanban">
+                    <field name="image_1920"/>
+                    <field name="id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                                <field name="image_1920" class="o_kanban_image_fill_left d-block"
+                                       widget="background_image"/>
+                                <div class="oe_kanban_details">
+                                    <h4>
+                                        <a type="open">
+                                            <field name="name"/>
+                                        </a>
+                                    </h4>
+                                    <ul>
+                                        <li t-if="record.contact_address.raw_value">
+                                            <field name="contact_address"/>
+                                        </li>
+                                        <li t-if="record.phone.raw_value">
+                                            <field name="phone"/>
+                                        </li>
+                                        <li t-if="record.mobile.raw_value">
+                                            <field name="mobile"/>
+                                        </li>
+                                        <li t-if="record.email.raw_value">
+                                            <a t-attf-href="mailto:#{record.email.value}">
+                                                <field name="email"/>
+                                            </a>
+                                        </li>
+                                        <li t-if="record.lang.raw_value">
+                                            <field name="lang"/>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="view_res_farmer_tree" model="ir.ui.view">
+            <field name="name">res.farmer.tree</field>
+            <field name="model">res.farmer</field>
+            <field name="arch" type="xml">
+                <tree string="Farmers">
+                    <field name="title"/>
+                    <field name="name"/>
+                    <field name="gender" optional="hide"/>
+                    <field name="phone" optional="show"/>
+                    <field name="mobile" optional="show"/>
+                    <field name="email" optional="hide"/>
+                    <field name="blood_group" optional="hide"/>
+                    <field name="emergency_contact"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_res_farmer_search" model="ir.ui.view">
+            <field name="name">res.farmer.search</field>
+            <field name="model">res.farmer</field>
+            <field name="arch" type="xml">
+                <search string="Farmers">
+                    <field name="name"/>
+                    <field name="emergency_contact"/>
+                    <filter string="Male" name="male" domain="[('gender','=','male')]"/>
+                    <filter string="Female" name="female" domain="[('gender','=','female')]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="gender" string="Gender" domain="" context="{'group_by':'gender'}"/>
+                        <separator/>
+                        <filter name="birth_date" string="Birth Date" domain="" context="{'group_by':'birth_date'}"/>
+                        <separator/>
+                        <filter name="blood_group" string="Blood Group" domain="" context="{'group_by':'blood_group'}"/>
+                        <separator/>
+                        <filter name="nationality" string="Nationality" domain="" context="{'group_by':'nationality'}"/>
+                        <filter name="language" string="Language" domain="" context="{'group_by':'lang'}"/>
+                        <separator/>
+                        <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="act_res_farmer" model="ir.actions.act_window">
+            <field name="name">Farmers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.farmer</field>
+            <field name="view_mode">kanban,tree,form</field>
+        </record>
+
+    </data>
+</odoo>
