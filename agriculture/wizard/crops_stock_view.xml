@@ -13,7 +13,7 @@
                             <field name="product_id" readonly="1"/>
                             <!--                           <field name="quantity"/>-->
                             <!--                           <field name="uom_id"/>-->
-                            <label for="quantity" string="Duration"/>
+                            <label for="quantity" string="Quantity"/>
                             <div name="quantity_display">
                                 <div class="o_row">
                                     <field name="quantity" class="oe_inline"/>

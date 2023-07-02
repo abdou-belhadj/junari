@@ -27,6 +27,12 @@
                   parent="crops_crops_root"
                   action="act_crops_crops"/>
 
+        <menuitem id="crops_process_menu"
+                  name="Processes"
+                  sequence="20"
+                  parent="crops_crops_root"
+                  action="act_crops_process"/>
+
         <menuitem id="crops_configuration_menu"
                   name="Configuration"
                   sequence="99"

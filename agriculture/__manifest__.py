@@ -24,15 +24,18 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
-        'data/data.xml',
         'views/res_farmers_view.xml',
         'views/crops_crops_view.xml',
-        'views/crops_configuration.xml',
+        'views/crops_stages.xml',
         'views/disease_view.xml',
-        'views/process_process_view.xml',
+        'views/process_view.xml',
         'views/crops_process_view.xml',
         'views/product_views.xml',
         'wizard/crops_stock_view.xml',
         'views/menus.xml',
+        'data/data.xml',
+        'data/crops_stages.xml',
+        'data/crops_process.xml',
+        'data/crops_diseases.xml',
     ],
 }

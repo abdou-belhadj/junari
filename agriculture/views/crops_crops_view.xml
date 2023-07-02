@@ -2,7 +2,6 @@
 <odoo>
     <data>
 
-
         <record id="view_crops_crops_form" model="ir.ui.view">
             <field name="name">crops.crops.form</field>
             <field name="model">crops.crops</field>
@@ -13,8 +12,10 @@
                                options="{'clickable': '1', 'fold_field': 'fold'}"
                                attrs="{'invisible': [('active', '=', False)]}"/>
 
-                        <button name="create_stock_receipt" type="object" string="Increment Stock"/>
-
+                        <button name="create_stock_receipt"
+                                type="object"
+                                attrs="{'invisible': [('is_harvest', '=', False)]}"
+                                string="Increment Stock"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
@@ -24,31 +25,47 @@
                                 <div class="o_field_widget o_stat_info">
                                     <span class="o_stat_value"><field name="process_count"/></span>
                                     <span class="o_stat_text">Processes</span>
-                                    <field name="process_count" invisible="1"/>
                                 </div>
                             </button>
-
+                            <button class="oe_stat_button" type="object"
+                                    attrs="{'invisible': [('move_ids', '=', False)]}"
+                                    name="action_view_stock_picking" icon="fa-cubes">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_value"><field name="picking_count"/> <field name="uom_id"/></span>
+                                </div>
+                            </button>
                         </div>
+                        <field name="is_harvest" invisible="1"/>
+                        <field name="next_disease" invisible="1"/>
                         <field name="active" invisible="1"/>
                         <field name="image_1920" widget="image" class="oe_avatar"/>
-
-                        <div class="oe_title">
-                            <label for="product_id" string="Product Name"/>
-                            <h1>
-                                <div class="d-flex">
-                                    <field class="text-break" name="product_id" options="{'no_create': True}"/>
+                        <div style="flex: 1;display: flex;flex-direction: column;">
+                            <div class="col-10 px-0">
+                                <div class="row">
+                                    <h2 class="col-10">
+                                        <table>
+                                            <tr>
+                                                <td style="padding-right:10px;">
+                                                    <field name="sequence" placeholder="Name"/> -
+                                                </td>
+                                                <td style="padding-right:10px;">
+                                                    <field name="product_id" placeholder="Product Name"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </h2>
                                 </div>
-                            </h1>
+                            </div>
                         </div>
                         <group>
                             <group>
                                 <label for="date_from" string="Dates"/>
                                 <div class="o_row">
                                     <span class="text-muted">From</span>
-                                    <field name="date_from" class="oe_inline" widget="daterange"
+                                    <field name="date_from" class="oe_inline" widget="daterange" required="1"
                                            options="{'related_end_date': 'date_to'}"/>
                                     <span class="text-muted">To</span>
-                                    <field name="date_to" class="oe_inline" widget="daterange"
+                                    <field name="date_to" class="oe_inline" widget="daterange" required="1"
                                            options="{'related_end_date': 'date_from'}"/>
                                 </div>
                                 <label for="number_of_days" string="Duration"/>
@@ -61,40 +78,44 @@
                             </group>
                             <group>
                                 <field name="color" widget="color_picker"/>
+                                <field name="farmers"/>
+                                <field name="tracktors"/>
                             </group>
                             <notebook name="details">
                                 <page string="Processes" name="process">
                                     <field name="process_ids">
                                         <tree editable="bottom" decoration-success="status == '03_done'"
-                                              decoration-info="status == '02_in_process'"
+                                              decoration-info="status == '02_in_progress'"
                                               decoration-danger="status == '04_cancelled'">
                                             <field name="crops_id" invisible="1"/>
                                             <field name="status" invisible="1"/>
                                             <field name="process_id"/>
                                             <field name="assigned_to"/>
+                                            <field name="fleet_ids" widget="many2many_tags"/>
                                             <field name="date_from"/>
                                             <field name="date_to"/>
                                             <field name="description"/>
-                                            <field name="fleet_ids" widget="many2many_tags"/>
                                             <button name="begin_process" type="object" string="BEGIN"
                                                     class="btn-primary"
                                                     attrs="{'invisible': [('status', '!=', '01_new')]}"/>
                                             <button name="done_process" type="object" string="DONE" class="btn-success"
-                                                    attrs="{'invisible': [('status', '!=', '02_in_process')]}"/>
+                                                    attrs="{'invisible': [('status', '!=', '02_in_progress')]}"/>
                                             <button name="cancel_process" type="object" string="Cancel"
-                                                    attrs="{'invisible': [('status', 'not in', ['01_new', '02_in_process'])]}"/>
+                                                    attrs="{'invisible': [('status', 'not in', ['01_new', '02_in_progress'])]}"/>
                                         </tree>
                                     </field>
                                 </page>
-                                <page string="Pest and Disease" name="diseases">
+                                <page string="Disease check" name="diseases">
                                     <field name="diseases_ids">
                                         <tree editable="bottom">
                                             <field name="crops_id" invisible="1"/>
-                                            <field name="is_done" invisible="1"/>
-                                            <field name="disease_id"/>
-                                            <field name="date_from"/>
-                                            <field name="date_to"/>
+                                            <field name="is_checked" invisible="1"/>
+                                            <field name="disease_id" required="1"/>
+                                            <field name="date" required="1"/>
                                             <field name="description"/>
+                                            <button name="disease_checked" type="object" string="Check"
+                                                    class="btn-primary"
+                                                    attrs="{'invisible': [('is_checked', '!=', False)]}"/>
                                         </tree>
                                     </field>
                                 </page>
@@ -106,6 +127,7 @@
                                             <field name="picking_id"/>
                                             <field name="state"/>
                                             <field name="product_uom_qty"/>
+                                            <field name="quantity_done"/>
                                             <field name="product_uom"/>
                                         </tree>
                                     </field>
@@ -127,26 +149,45 @@
             <field name="model">crops.crops</field>
             <field name="arch" type="xml">
                 <kanban default_group_by="stage_id" group_create="false" class="o_modules_kanban" sample="1">
+                    <field name="name"/>
                     <field name="image_1920"/>
                     <field name="stage_id"/>
-
+                    <field name="color"/>
+                    <field name="product_id"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="next_disease"/>
                     <templates>
                         <t t-name="kanban-box">
-                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                            <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''} #{lost_ribbon ? 'oe_kanban_card_ribbon' : ''} oe_kanban_global_click o_kanban_record_has_image_fill">
                                 <field name="image_1920" class="o_kanban_image_fill_left d-block"
                                        widget="background_image"/>
                                 <div class="oe_kanban_details">
-                                    <h4>
-                                        <a type="open">
-                                            <field name="product_id"/>
-                                        </a>
-                                    </h4>
+                                    <h2><field name="name"/></h2>
+
                                     <ul>
+                                        <li>
+                                            <span><field name="number_of_days_left"/></span>
+                                        </li>
                                         <li>
                                             <span>Agriculture Date: <field name="date_from"/></span>
                                         </li>
                                         <li>
                                             <span>Harvest Date: <field name="date_to"/></span>
+                                        </li>
+                                        <li>
+                                            <span>Farmers Needed: <field name="farmers"/></span>
+                                        </li>
+                                        <li>
+                                            <span>Tracktors: <field name="tracktors"/></span>
+                                        </li>
+                                        <li>
+                                            <span t-if="record.next_disease.value">
+                                                Disease Check: <field name="next_disease"/>
+                                            </span>
+                                            <span t-else="">
+                                                <span style="color:green">Disease Check ✓</span>
+                                            </span>
                                         </li>
                                     </ul>
                                 </div>

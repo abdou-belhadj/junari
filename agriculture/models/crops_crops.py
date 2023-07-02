@@ -4,14 +4,25 @@ from odoo import api, fields, models, _
 class CropsCrops(models.Model):
     _name = 'crops.crops'
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    _rec_name = 'product_id'
+    _rec_name = 'name'
+
+    @api.depends('sequence', 'product_id.name')
+    def _compute_name(self):
+        for rec in self:
+            rec.name = f"{rec.sequence} - {rec.product_id.name}"
+
+    name = fields.Char(string='Abstract', compute='_compute_name')
 
     active = fields.Boolean(string="Active", default=True, )
 
+    sequence = fields.Char(
+        'Name', copy=False, required=True, readonly=True,
+        default=lambda self: self.env['ir.sequence'].next_by_code('crops.crops'))
+
     product_id = fields.Many2one('product.product', 'Products', domain="[('crops_ok', '=', True)]",
-                                 required=True, ondelete="cascade", )
+                                 required=True, ondelete="cascade", delegate=True)
     color = fields.Integer('Color Index')
-    image_1920 = fields.Image(related="product_id.image_1920", readonly=True, )
+    # image_1920 = fields.Image(related="product_id.image_1920", readonly=True, )
 
     date_from = fields.Date('Agriculture Date', )
     date_to = fields.Date('Harvest Date', )
@@ -19,35 +30,63 @@ class CropsCrops(models.Model):
     number_of_days = fields.Float(
         'Duration (Days)', compute='_compute_number_of_days', store=True, readonly=False, copy=False, tracking=True, )
 
+    number_of_days_left = fields.Char(
+        'Duration (Days)', compute='_check_next_process', readonly=False, copy=False, )
+
     stage_id = fields.Many2one(
-        'crops.stages',
+        'crops.stages', delegate=True,
         string='Stage', index=True, tracking=True, copy=False, ondelete='restrict', readonly=False, store=True,
         group_expand=lambda self, stages, domain, order: self.env['crops.stages'].search([], ),
-        default=lambda self: self.env['crops.stages'].search([], order="sequence", limit=1).id,
+        default=lambda self: self.env['crops.stages'].search([(['is_closing_opening', '=', True])],
+                                                             order="sequence", limit=1).id,
     )
-
     process_ids = fields.One2many("crops.process", "crops_id", string="Process", required=False, )
 
     diseases_ids = fields.One2many("crops.disease", "crops_id", string="Disease", required=False, )
 
     process_count = fields.Integer(string="Processes Count", compute="_compute_processes_count", )
+    picking_count = fields.Float(string="Picking Count", compute="_compute_picking_count", )
+    uom_id = fields.Many2one(related='product_id.uom_id', required=True, )
 
     move_ids = fields.One2many('stock.move', 'crops_id', string="Stock Moves", copy=True)
+
+    farmers = fields.Integer(string="Needed Farmer", required=False, )
+    tracktors = fields.Integer(string="Needed Tracktors", required=False, )
+
+    next_disease = fields.Date(string="", compute="_check_next_disease", )
+
+    @api.depends('process_ids')
+    def _check_next_process(self):
+        for rec in self:
+            next_process = rec.process_ids.search(
+                [('crops_id', '=', rec.id), ('status', '=', '01_new'), ('date_from', '!=', False)],
+                order='date_from', limit=1)
+            if next_process:
+                delta = next_process.date_from - fields.Date.today()
+                rec.number_of_days_left = f"{delta.days} days left for {next_process.process_id.name}"
+            else:
+                rec.number_of_days_left = f"No process Date is mentionned."
+
+    @api.depends('diseases_ids')
+    def _check_next_disease(self):
+        for rec in self:
+            next_disease = rec.diseases_ids.search(
+                [('crops_id', '=', rec.id), ('is_checked', '=', False), ('date', '>=', fields.Date.today())],
+                order='date', limit=1)
+            if next_disease:
+                rec.next_disease = next_disease.date
+            else:
+                rec.next_disease = False
 
     @api.depends('process_ids')
     def _compute_processes_count(self):
         for rec in self:
             rec.process_count = len(rec.process_ids)
 
-    def action_view_crops_process(self):
-        return {
-            "type": "ir.actions.act_window",
-            "res_model": "crops.process",
-            "domain": [('crops_id', "=", self.id)],
-            "context": {'default_crops_id': self.id},
-            "name": _("CROPS"),
-            'view_mode': 'kanban,activity',
-        }
+    @api.depends('move_ids')
+    def _compute_picking_count(self):
+        for rec in self:
+            rec.picking_count = sum(self.move_ids.mapped('product_uom_qty'))
 
     @api.depends('date_from', 'date_to')
     def _compute_number_of_days(self):
@@ -57,6 +96,26 @@ class CropsCrops(models.Model):
                 rec.number_of_days = delta.days
             else:
                 rec.number_of_days = 0
+
+    def action_view_crops_process(self):
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "crops.process",
+            "domain": [('crops_id', "=", self.id)],
+            "context": {'default_crops_id': self.id},
+            "name": _("CROPS"),
+            'view_mode': 'kanban,tree,activity',
+        }
+
+    def action_view_stock_picking(self):
+        return {
+            "name": _(f"{self.name} Picking"),
+            "type": "ir.actions.act_window",
+            "res_model": "stock.picking",
+            "domain": [('id', "in", self.move_ids.mapped('picking_id').ids)],
+            'view_mode': 'tree,form,kanban',
+            'context': {'create': False},
+        }
 
     def create_stock_receipt(self):
         return {
@@ -72,15 +131,3 @@ class CropsCrops(models.Model):
             'view_mode': 'form',
             'target': 'new',
         }
-
-
-class CropsStages(models.Model):
-    _name = 'crops.stages'
-    _description = "CROPS Stages"
-    _rec_name = 'name'
-    _order = "sequence, name"
-
-    name = fields.Char(string="Name", required=False, )
-    sequence = fields.Char(string="Sequence", default=1, required=False, )
-    description = fields.Html(string='Description')
-    fold = fields.Boolean('Fold', )

@@ -79,18 +79,38 @@
             </field>
         </record>
 
+        <record id="view_crops_process_tree" model="ir.ui.view">
+            <field name="name">crops.process.tree</field>
+            <field name="model">crops.process</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" decoration-success="status == '03_done'"
+                      decoration-info="status == '02_in_progress'"
+                      decoration-danger="status == '04_cancelled'">
+                    <field name="crops_id"/>
+                    <field name="status" invisible="1"/>
+                    <field name="process_id"/>
+                    <field name="assigned_to"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="description"/>
+                    <field name="fleet_ids" widget="many2many_tags"/>
+                    <button name="begin_process" type="object" string="BEGIN"
+                            class="btn-primary"
+                            attrs="{'invisible': [('status', '!=', '01_new')]}"/>
+                    <button name="done_process" type="object" string="DONE" class="btn-success"
+                            attrs="{'invisible': [('status', '!=', '02_in_progress')]}"/>
+                    <button name="cancel_process" type="object" string="Cancel"
+                            attrs="{'invisible': [('status', 'not in', ['01_new', '02_in_progress'])]}"/>
+                </tree>
+            </field>
+        </record>
+
 
         <record id="act_crops_process" model="ir.actions.act_window">
             <field name="name">CROPS Processes</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">crops.process</field>
-            <field name="view_mode">kanban,activity</field>
+            <field name="view_mode">kanban,tree,activity</field>
         </record>
-
-        <!--        <menuitem id="crops_process_menu"-->
-        <!--                  name="Processes"-->
-        <!--                  sequence="20"-->
-        <!--                  parent="crops_configuration_menu"-->
-        <!--                  action="act_process_process"/>-->
     </data>
 </odoo>

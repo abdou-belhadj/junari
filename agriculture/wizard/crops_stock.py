@@ -7,10 +7,11 @@ class CropsStockWizard(models.TransientModel):
     _description = 'Increment Stock'
 
     crops_id = fields.Many2one("crops.crops", string="CROPS", required=False, )
-    product_id = fields.Many2one("product.product", string="", required=False, )
+    product_id = fields.Many2one("product.product", string="Product", required=False, )
 
-    quantity = fields.Float(string="",  required=False, )
-    uom_id = fields.Many2one('uom.uom', 'Unit of Measure', required=True, )
+    quantity = fields.Float(string="Quantity",  required=False, )
+
+    uom_id = fields.Many2one(related='product_id.uom_id', required=True, )
 
     location_id = fields.Many2one("stock.location", string="Location", required=False, )
     location_dest_id = fields.Many2one("stock.location", string="DEST Location", required=False, )
@@ -20,7 +21,7 @@ class CropsStockWizard(models.TransientModel):
             raise UserError("You must add quantity")
         vals = {
             'picking_type_id': self.env.ref('stock.picking_type_in').id,
-            'origin': f"CROPS {self.crops_id}",
+            'origin': f"CROPS {self.crops_id.name}",
             'move_ids': [(0, 0, {
                 'product_id': self.product_id.id,
                 'product_uom_qty': self.quantity,

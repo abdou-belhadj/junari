@@ -21,7 +21,7 @@
             <field name="view_mode">tree</field>
         </record>
 
-        <menuitem id="crops_process_menu"
+        <menuitem id="process_process_menu"
                   name="Processes"
                   sequence="20"
                   parent="crops_configuration_menu"

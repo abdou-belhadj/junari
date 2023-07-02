@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="disease_disease_1" model="disease.disease">
+            <field name="name">Fusarium Wilt</field>
+            <field name="description">
+                Fusarium wilt is a fungal disease that affects a wide range of crops, including
+                tomatoes, bananas, and cucumbers. It is caused by various species of the Fusarium fungus and is
+                characterized by the wilting and yellowing of leaves, stunted growth, and eventual death of the plant.
+                The fungus infects the plant's vascular system, obstructing the flow of water and nutrients.
+            </field>
+        </record>
+
+        <record id="disease_disease_2" model="disease.disease">
+            <field name="name">Late Blight</field>
+            <field name="description">
+                Late blight is a devastating disease that affects potatoes and tomatoes. It is
+                caused by the water mold Phytophthora infestans and can spread rapidly under cool and moist conditions.
+                Symptoms include dark, water-soaked lesions on leaves, stems, and fruits, which can quickly turn into
+                brown or purplish-black patches. The disease can lead to the complete destruction of the crop if not
+                controlled.
+            </field>
+        </record>
+
+        <record id="disease_disease_3" model="disease.disease">
+            <field name="name">Powdery Mildew</field>
+            <field name="description">
+                Powdery mildew is a fungal disease that affects a wide range of plants, including
+                grapes, cucurbits, and roses. It appears as a white or gray powdery growth on the surfaces of leaves,
+                stems, and flowers. Infected plants may experience stunted growth, distorted leaves, and reduced fruit
+                production. Warm and humid conditions favor the development and spread of powdery mildew.
+            </field>
+        </record>
+
+        <record id="disease_disease_4" model="disease.disease">
+            <field name="name">Rust</field>
+            <field name="description">
+                Rust is a fungal disease that affects many cereal crops, including wheat, barley,
+                and corn. It appears as orange, brown, or reddish-brown powdery pustules on the surfaces of leaves,
+                stems, and grains. Infected plants may exhibit stunted growth, yellowing of leaves, and reduced yield.
+                Rust can spread rapidly, especially in humid conditions, and can cause significant damage to
+                crops.
+            </field>
+        </record>
+
+        <record id="disease_disease_5" model="disease.disease">
+            <field name="name">Bacterial Spot</field>
+            <field name="description">
+                Bacterial spot is a common disease that affects a wide range of vegetable crops,
+                such as tomatoes, peppers, and cucumbers. It is caused by different species of bacteria, including
+                Xanthomonas and Pseudomonas. Symptoms include small, water-soaked lesions on leaves, stems, and fruits,
+                which can enlarge and turn dark over time. Infected fruits may develop rot and become
+                unmarketable.
+            </field>
+        </record>
+
+        <record id="disease_disease_6" model="disease.disease">
+            <field name="name">Citrus Canker</field>
+            <field name="description">
+                Citrus canker is a bacterial disease that affects citrus trees, including oranges,
+                lemons, and grapefruits. It is caused by the bacterium Xanthomonas citri subsp. citri. The disease is
+                characterized by raised corky lesions on leaves, stems, and fruits, often surrounded by an oily or
+                water-soaked margin. Severe infections can cause defoliation, premature fruit drop, and reduced tree
+                vigor.
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
