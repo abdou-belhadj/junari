@@ -3,7 +3,7 @@ from odoo import api, fields, models, _
 
 class CropsDisease(models.Model):
     _name = 'crops.disease'
-    _description = "CROPS Disease"
+    _description = "Crops Disease"
 
     crops_id = fields.Many2one("crops.crops", string="CROPS", required=False, )
     disease_id = fields.Many2one("disease.disease", string="Disease", required=True, )
@@ -24,6 +24,7 @@ class CropsDisease(models.Model):
 class DiseaseDisease(models.Model):
     _name = 'disease.disease'
     _rec_name = 'name'
+    _description = "Disease"
 
     name = fields.Char(string="Name", required=False, )
     description = fields.Text(string="Description", required=False, )

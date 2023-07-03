@@ -10,6 +10,7 @@ class ResPartner(models.Model):
 
 class ResFarmer(models.Model):
     _name = 'res.farmer'
+    _description = 'Farmers'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _inherits = {"res.partner": "partner_id"}
 

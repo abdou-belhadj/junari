@@ -3,18 +3,15 @@
     'name': "agriculture",
 
     'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.openerp.com""",
+        Comprehensive solution designed to streamline and manage agricultural operations.""",
 
     'description': """
-        Long description of module's purpose
+        It caters to the specific needs of the agriculture industry, providing tools and functionalities 
+         to optimize farm management, crop cultivation, inventory control, resource allocation, and reporting..
     """,
 
     'author': "Abdou Belhadj",
 
-    # Categories can be used to filter modules in modules listing
-    # Check https://github.com/odoo/odoo/blob/16.0/odoo/addons/base/data/ir_module_category_data.xml
-    # for the full list
     'category': 'Agriculture',
     'version': '16.0.0',
 

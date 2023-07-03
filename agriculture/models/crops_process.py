@@ -5,7 +5,7 @@ from odoo.exceptions import ValidationError
 class CropsProcess(models.Model):
     _name = 'crops.process'
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    _description = "CROPS Process"
+    _description = "Crops Process"
 
     crops_id = fields.Many2one("crops.crops", string="CROPS", required=False, )
     color = fields.Integer(related='crops_id.color')
@@ -59,6 +59,7 @@ class CropsProcess(models.Model):
 class ProcessProcess(models.Model):
     _name = 'process.process'
     _rec_name = 'name'
+    _description = "Process"
 
     name = fields.Char(string="Name", required=False, )
     description = fields.Text(string="Description", required=False, )

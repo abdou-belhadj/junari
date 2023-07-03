@@ -3,7 +3,7 @@ from odoo import api, fields, models, _
 
 class CropsCrops(models.Model):
     _name = 'crops.crops'
-    _description = 'CROPS'
+    _description = 'Crops'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'name'
 
@@ -17,7 +17,7 @@ class CropsCrops(models.Model):
     active = fields.Boolean(string="Active", default=True, )
 
     crop_sequence = fields.Char('Name', copy=False, required=True, readonly=True, store=True,
-        default=lambda self: self.env['ir.sequence'].next_by_code('crops.crops'))
+                                default=lambda self: self.env['ir.sequence'].next_by_code('crops.crops'))
 
     product_id = fields.Many2one('product.product', 'Products', domain="[('crops_ok', '=', True)]",
                                  required=True, ondelete="cascade", delegate=True, )

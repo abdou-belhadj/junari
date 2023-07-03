@@ -3,7 +3,7 @@ from odoo import api, fields, models, _
 
 class CropsStages(models.Model):
     _name = 'crops.stages'
-    _description = "CROPS Stages"
+    _description = "Crops Stages"
     _rec_name = 'name'
     _order = "sequence, name"
 
