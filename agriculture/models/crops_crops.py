@@ -3,6 +3,7 @@ from odoo import api, fields, models, _
 
 class CropsCrops(models.Model):
     _name = 'crops.crops'
+    _description = 'CROPS'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'name'
 
@@ -30,8 +31,8 @@ class CropsCrops(models.Model):
     number_of_days = fields.Float(
         'Duration (Days)', compute='_compute_number_of_days', store=True, readonly=False, copy=False, tracking=True, )
 
-    number_of_days_left = fields.Char(
-        'Duration (Days)', compute='_check_next_process', readonly=False, copy=False, )
+    days_left_next_process = fields.Char(
+        'Next_process_left', compute='_check_next_process', readonly=False, copy=False, store=True, )
 
     stage_id = fields.Many2one(
         'crops.stages',
@@ -54,7 +55,7 @@ class CropsCrops(models.Model):
     farmers = fields.Integer(string="Needed Farmer", required=False, )
     tracktors = fields.Integer(string="Needed Tracktors", required=False, )
 
-    next_disease = fields.Date(string="", compute="_check_next_disease", )
+    next_disease = fields.Date(string="Disease Check", compute="_check_next_disease", )
 
     @api.depends('process_ids')
     def _check_next_process(self):
@@ -64,9 +65,9 @@ class CropsCrops(models.Model):
                 order='date_from', limit=1)
             if next_process:
                 delta = next_process.date_from - fields.Date.today()
-                rec.number_of_days_left = f"{delta.days} days left for {next_process.process_id.name}"
+                rec.days_left_next_process = f"{delta.days} days left for {next_process.process_id.name}"
             else:
-                rec.number_of_days_left = f"No process date is mentionned."
+                rec.days_left_next_process = f"No process date is mentionned."
 
     @api.depends('diseases_ids')
     def _check_next_disease(self):
