@@ -38,4 +38,9 @@
         'data/crops_process.xml',
         'data/crops_diseases.xml',
     ],
+
+    'installable': True,
+    'auto_install': False,
+    'application': True,
+
 }

@@ -47,10 +47,12 @@
                                         <table>
                                             <tr>
                                                 <td style="padding-right:10px;">
-                                                    <field name="sequence" placeholder="Name"/> -
+                                                    <field name="crop_sequence" placeholder="Name"/> -
                                                 </td>
                                                 <td style="padding-right:10px;">
-                                                    <field name="product_id" placeholder="Product Name"/>
+                                                    <field name="product_id"
+                                                           placeholder="Product Name"
+                                                           context="{'default_crops_ok': True, 'default_detailed_type': 'product'}"/>
                                                 </td>
                                             </tr>
                                         </table>
@@ -92,7 +94,7 @@
                                             <field name="status" invisible="1"/>
                                             <field name="process_id"
                                                    attrs="{'readonly': [('status', 'not in', ['01_new', '02_in_progress'])]}"/>
-                                            <field name="assigned_to"
+                                            <field name="assigned_to" options="{'no_create': True}"
                                                    attrs="{'readonly': [('status', 'not in', ['01_new', '02_in_progress'])]}"/>
                                             <field name="fleet_ids" widget="many2many_tags"
                                                    attrs="{'readonly': [('status', 'not in', ['01_new', '02_in_progress'])]}"/>

@@ -6,23 +6,23 @@ class CropsCrops(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'name'
 
-    @api.depends('sequence', 'product_id.name')
+    @api.depends('crop_sequence', 'product_id.name')
     def _compute_name(self):
         for rec in self:
-            rec.name = f"{rec.sequence} - {rec.product_id.name}"
+            rec.name = f"{rec.crop_sequence} - {rec.product_id.name}"
 
     name = fields.Char(string='Name', compute='_compute_name', store=True)
 
     active = fields.Boolean(string="Active", default=True, )
 
-    sequence = fields.Char(
-        'Name', copy=False, required=True, readonly=True, store=True,
+    crop_sequence = fields.Char('Name', copy=False, required=True, readonly=True, store=True,
         default=lambda self: self.env['ir.sequence'].next_by_code('crops.crops'))
 
     product_id = fields.Many2one('product.product', 'Products', domain="[('crops_ok', '=', True)]",
-                                 required=True, ondelete="cascade", )
+                                 required=True, ondelete="cascade", delegate=True, )
+    # image_1920 = fields.Image(related="product_id.image_1920", readonly=True, )
+
     color = fields.Integer('Color Index')
-    image_1920 = fields.Image(related="product_id.image_1920", readonly=True, )
 
     date_from = fields.Date('Agriculture Date', )
     date_to = fields.Date('Harvest Date', )
@@ -34,12 +34,13 @@ class CropsCrops(models.Model):
         'Duration (Days)', compute='_check_next_process', readonly=False, copy=False, )
 
     stage_id = fields.Many2one(
-        'crops.stages', delegate=True,
+        'crops.stages',
         string='Stage', index=True, tracking=True, copy=False, ondelete='restrict', readonly=False, store=True,
         group_expand=lambda self, stages, domain, order: self.env['crops.stages'].search([], ),
         default=lambda self: self.env['crops.stages'].search([(['is_closing_opening', '=', True])],
                                                              order="sequence", limit=1).id,
     )
+    is_harvest = fields.Boolean(related="stage_id.is_harvest", )
     process_ids = fields.One2many("crops.process", "crops_id", string="Process", required=False, )
 
     diseases_ids = fields.One2many("crops.disease", "crops_id", string="Disease", required=False, )
