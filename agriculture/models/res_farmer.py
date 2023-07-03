@@ -70,5 +70,3 @@ class ResFarmer(models.Model):
             if record.birth_date > fields.Date.today():
                 raise ValidationError(_(
                     "Birth Date can't be greater than current date!"))
-
-

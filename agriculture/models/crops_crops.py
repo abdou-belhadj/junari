@@ -65,7 +65,7 @@ class CropsCrops(models.Model):
                 delta = next_process.date_from - fields.Date.today()
                 rec.number_of_days_left = f"{delta.days} days left for {next_process.process_id.name}"
             else:
-                rec.number_of_days_left = f"No process Date is mentionned."
+                rec.number_of_days_left = f"No process date is mentionned."
 
     @api.depends('diseases_ids')
     def _check_next_disease(self):

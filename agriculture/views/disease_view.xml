@@ -19,11 +19,6 @@
             <field name="res_model">disease.disease</field>
             <field name="view_mode">tree</field>
         </record>
-        
-        <menuitem id="crops_disease_menu"
-                  name="Diseases"
-                  sequence="20"
-                  parent="crops_configuration_menu"
-                  action="act_disease_disease"/>
+
     </data>
 </odoo>

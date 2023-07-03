@@ -9,7 +9,7 @@ class CropsStockWizard(models.TransientModel):
     crops_id = fields.Many2one("crops.crops", string="CROPS", required=False, )
     product_id = fields.Many2one("product.product", string="Product", required=False, )
 
-    quantity = fields.Float(string="Quantity",  required=False, )
+    quantity = fields.Float(string="Quantity", required=False, )
 
     uom_id = fields.Many2one(related='product_id.uom_id', required=True, )
 
@@ -34,4 +34,3 @@ class CropsStockWizard(models.TransientModel):
         }
         stock_move = self.env['stock.picking'].create(vals)
         stock_move.action_confirm()
-

@@ -2,7 +2,6 @@
 <odoo>
     <data>
 
-        <!-- This Menu Item will appear in the Upper bar, That's why It needs NO parent or action -->
         <menuitem id="res_farmer_root"
                   name="Farmers"
                   sequence="20"
@@ -14,8 +13,6 @@
                   parent="res_farmer_root"
                   action="act_res_farmer"/>
 
-
-        <!-- This Menu Item will appear in the Upper bar, That's why It needs NO parent or action -->
         <menuitem id="crops_crops_root"
                   name="CROPS"
                   sequence="140"
@@ -44,11 +41,17 @@
                   parent="crops_configuration_menu"
                   action="act_crops_stages"/>
 
-        <!--        &lt;!&ndash; This Menu Item will appear in the Upper bar, That's why It needs NO parent or action &ndash;&gt;-->
-        <!--        <menuitem id="fleet_tracktors_root"-->
-        <!--                  name="Tracktors"-->
-        <!--                  sequence="220"-->
-        <!--                  web_icon="agriculture,static/description/tracktor.png"/>-->
+        <menuitem id="crops_disease_menu"
+                  name="Diseases"
+                  sequence="20"
+                  parent="crops_configuration_menu"
+                  action="act_disease_disease"/>
+
+        <menuitem id="process_process_menu"
+                  name="Processes"
+                  sequence="20"
+                  parent="crops_configuration_menu"
+                  action="act_process_process"/>
 
     </data>
 </odoo>

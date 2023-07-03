@@ -21,10 +21,5 @@
             <field name="view_mode">tree</field>
         </record>
 
-        <menuitem id="process_process_menu"
-                  name="Processes"
-                  sequence="20"
-                  parent="crops_configuration_menu"
-                  action="act_process_process"/>
     </data>
 </odoo>

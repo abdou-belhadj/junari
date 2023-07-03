@@ -7,7 +7,7 @@ class CropsDisease(models.Model):
 
     crops_id = fields.Many2one("crops.crops", string="CROPS", required=False, )
     disease_id = fields.Many2one("disease.disease", string="Disease", required=True, )
-    date = fields.Date('Date', )
+    date = fields.Date('Check Date', )
     description = fields.Text(string="Description", required=False, )
     is_checked = fields.Boolean(string="Checked", )
 

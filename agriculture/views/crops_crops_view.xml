@@ -31,7 +31,8 @@
                                     attrs="{'invisible': [('move_ids', '=', False)]}"
                                     name="action_view_stock_picking" icon="fa-cubes">
                                 <div class="o_field_widget o_stat_info">
-                                    <span class="o_stat_value"><field name="picking_count"/> <field name="uom_id"/></span>
+                                    <span class="o_stat_value"><field name="picking_count"/> <field
+                                            name="uom_id"/></span>
                                 </div>
                             </button>
                         </div>
@@ -89,11 +90,16 @@
                                               decoration-danger="status == '04_cancelled'">
                                             <field name="crops_id" invisible="1"/>
                                             <field name="status" invisible="1"/>
-                                            <field name="process_id"/>
-                                            <field name="assigned_to"/>
-                                            <field name="fleet_ids" widget="many2many_tags"/>
-                                            <field name="date_from"/>
-                                            <field name="date_to"/>
+                                            <field name="process_id"
+                                                   attrs="{'readonly': [('status', 'not in', ['01_new', '02_in_progress'])]}"/>
+                                            <field name="assigned_to"
+                                                   attrs="{'readonly': [('status', 'not in', ['01_new', '02_in_progress'])]}"/>
+                                            <field name="fleet_ids" widget="many2many_tags"
+                                                   attrs="{'readonly': [('status', 'not in', ['01_new', '02_in_progress'])]}"/>
+                                            <field name="date_from" required="1"
+                                                   attrs="{'readonly': [('status', 'not in', ['01_new', '02_in_progress'])]}"/>
+                                            <field name="date_to"
+                                                   attrs="{'readonly': [('status', 'not in', ['01_new', '02_in_progress'])]}"/>
                                             <field name="description"/>
                                             <button name="begin_process" type="object" string="BEGIN"
                                                     class="btn-primary"
