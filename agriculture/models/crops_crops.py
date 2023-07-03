@@ -11,18 +11,18 @@ class CropsCrops(models.Model):
         for rec in self:
             rec.name = f"{rec.sequence} - {rec.product_id.name}"
 
-    name = fields.Char(string='Abstract', compute='_compute_name')
+    name = fields.Char(string='Name', compute='_compute_name', store=True)
 
     active = fields.Boolean(string="Active", default=True, )
 
     sequence = fields.Char(
-        'Name', copy=False, required=True, readonly=True,
+        'Name', copy=False, required=True, readonly=True, store=True,
         default=lambda self: self.env['ir.sequence'].next_by_code('crops.crops'))
 
     product_id = fields.Many2one('product.product', 'Products', domain="[('crops_ok', '=', True)]",
-                                 required=True, ondelete="cascade", delegate=True)
+                                 required=True, ondelete="cascade", )
     color = fields.Integer('Color Index')
-    # image_1920 = fields.Image(related="product_id.image_1920", readonly=True, )
+    image_1920 = fields.Image(related="product_id.image_1920", readonly=True, )
 
     date_from = fields.Date('Agriculture Date', )
     date_to = fields.Date('Harvest Date', )

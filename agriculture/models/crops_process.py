@@ -32,7 +32,7 @@ class CropsProcess(models.Model):
     @api.constrains('date_from', 'date_to')
     def _check_date_from_to(self):
         for rec in self:
-            if rec.date_from > rec.date_to:
+            if rec.date_from and rec.date_to and rec.date_from > rec.date_to:
                 raise ValidationError(_(
                     f"Date From can't be greater than Date To in {rec.process_id.name}"))
 
